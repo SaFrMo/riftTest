@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class WelcomeScreen : MonoBehaviour {
 
+	// GUI skin
+	public GUISkin skin;
+
 	private bool SubmitInformation()
 	{
 		// make sure the user number and age can be parsed into integers
@@ -22,8 +25,13 @@ public class WelcomeScreen : MonoBehaviour {
 	private string _userAge = string.Empty;
 	private string _userGender = string.Empty;
 
+	// error entering variables
+	private bool error = false;
+
 	private void OnGUI ()
 	{
+		GUI.skin = skin;
+
 		// box dimensions
 		float width = Screen.width * .5f;
 		float height = Screen.height * .5f;
@@ -64,10 +72,17 @@ public class WelcomeScreen : MonoBehaviour {
 		// =====================
 		if (GUILayout.Button ("Submit"))
 		{
-			if (SubmitInformation())
+			if (!SubmitInformation())
 			{
-
+				error = true;
 			}
+
+		}
+
+		// error box
+		if (error)
+		{
+			GUILayout.Box ("Could not submit data! Please make sure the \"User Number\" and \"Age\" fields are numbers only.");
 		}
 
 		GUILayout.EndArea();
