@@ -4,11 +4,17 @@ using System.Collections.Generic;
 
 public class WelcomeScreen : MonoBehaviour {
 
-	private void SubmitInformation()
+	private bool SubmitInformation()
 	{
+		// make sure the user number and age can be parsed into integers
+		int test;
+		if (!int.TryParse (_userNumber, out test)) { _userNumber = string.Empty; return false; }
+		if (!int.TryParse (_userAge, out test)) { _userAge = string.Empty; return false; }
+
+		// if they're good, create the relevant User Data and a reference to it
 		UserData ud = new UserData(_userNumber, _userAge, _userGender);
-		UserDataMaster.USER_DICT.Add (ud.UserNumber, ud);
-		UserDataMaster.SaveData();
+		UserDataMaster.USER_DICT.Add (ud.UserNumber, ud);	
+		return true;
 	}
 
 	// user variables
@@ -58,7 +64,10 @@ public class WelcomeScreen : MonoBehaviour {
 		// =====================
 		if (GUILayout.Button ("Submit"))
 		{
-			SubmitInformation();
+			if (SubmitInformation())
+			{
+
+			}
 		}
 
 		GUILayout.EndArea();

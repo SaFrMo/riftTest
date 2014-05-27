@@ -14,6 +14,7 @@ public class UserData {
 		catch
 		{
 			MonoBehaviour.print ("Couldn't parse number/age!");
+			return;
 		}
 		Gender = _gender;
 	}
