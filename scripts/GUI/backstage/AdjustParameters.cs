@@ -5,7 +5,7 @@ public class AdjustParameters : MonoBehaviour {
 
 	private void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.Home))
+		if (Input.GetKeyDown (KeyCode.Escape))
 		{
 			showWindow = !showWindow;
 		}
