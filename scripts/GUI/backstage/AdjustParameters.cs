@@ -12,6 +12,7 @@ public class AdjustParameters : MonoBehaviour {
 	}
 
 	public static int ObjectsToAppear = 5;
+	public static bool XOnlyOnscreen = true;
 
 	public static bool showWindow = false;
 	private void OnGUI ()
@@ -33,7 +34,7 @@ public class AdjustParameters : MonoBehaviour {
 			GUILayout.EndHorizontal();
 
 			// adjust where on screen they can appear
-
+			XOnlyOnscreen = GUILayout.Toggle (XOnlyOnscreen, "Only appear on-screen");
 
 
 
