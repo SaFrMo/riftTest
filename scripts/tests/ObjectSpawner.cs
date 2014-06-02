@@ -136,6 +136,11 @@ public class ObjectSpawner : MonoBehaviour
 		Renderer _render = result.GetComponent<Renderer>();
 		_render.material.mainTexture = _texture;
         _render.material.color = _color;
+		_render.material.shader = Shader.Find ("Transparent/Diffuse");
+		_render.material.color = new Color (_render.material.color.r,
+		                                    _render.material.color.g,
+		                                    _render.material.color.b,
+		                                    1);
 
 		// put at a random position
 		do
