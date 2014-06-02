@@ -7,6 +7,6 @@ public class CursorTexture : MonoBehaviour {
 
 	private void Start ()
 	{
-		Cursor.SetCursor (cursorTexture, new Vector2 (cursorTexture.width / 2, CursorTexture.height / 2);
+		Cursor.SetCursor (cursorTexture, new Vector2 (cursorTexture.width / 2, cursorTexture.height / 2), CursorMode.ForceSoftware);
 	}
 }

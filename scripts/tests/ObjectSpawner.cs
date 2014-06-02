@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class ObjectSpawner : MonoBehaviour
 {
+	// System.Random to prevent duplicates from Unity.Random
+	System.Random r;
+
     // holds all available colors
     public List<Color> availableColors = new List<Color>();
     // holds all available patterns
@@ -20,11 +23,11 @@ public class ObjectSpawner : MonoBehaviour
     public GameObject GenerateObject ()
     {
         // first, generate the object's color
-        Color _color = availableColors[UnityEngine.Random.Range(0, 2)];
+        Color _color = availableColors[r.Next(0, 2)];
         // generate the object's pattern
-        Texture2D _texture = availablePatterns[UnityEngine.Random.Range(0, 2)];
+        Texture2D _texture = availablePatterns[r.Next(0, 2)];
         // and lastly, generate the object's shape
-        PrimitiveType _shape = availableShapes[UnityEngine.Random.Range(0, 2)];
+        PrimitiveType _shape = availableShapes[r.Next(0, 2)];
         
         // apply shape, texture, and color
         GameObject result = GameObject.CreatePrimitive (_shape);
@@ -33,12 +36,18 @@ public class ObjectSpawner : MonoBehaviour
         _render.material.color = _color;
 
 		// put at a random position
-		float posX = (AdjustParameters.XOnlyOnscreen ? 
-		              UnityEngine.Random.Range (0, 100) / 100 :
-		              UnityEngine.Random.Range (-50, 150) / 100);
+		float posX = (float)(AdjustParameters.XOnlyOnscreen ? 
+		              r.Next (0, 100) / 100f :
+		              r.Next (-50, 150) / 100f);
 		result.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (posX,
-		                                                                           UnityEngine.Random.Range (0, 100) / 100));
+		                                                                           r.Next(0, 100) / 100f,
+		                                                                           5f));
         
         return result;
     }
+
+	private void Start ()
+	{
+		r = new System.Random();
+	}
 }
