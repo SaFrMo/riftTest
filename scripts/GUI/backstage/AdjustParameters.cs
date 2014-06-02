@@ -13,6 +13,8 @@ public class AdjustParameters : MonoBehaviour {
 
 	public static int ObjectsToAppear = 5;
 	public static bool XOnlyOnscreen = true;
+	public static int ModerateMatches = 50;
+	public static int BadMatches;
 
 	public static bool showWindow = false;
 	private void OnGUI ()
@@ -35,6 +37,15 @@ public class AdjustParameters : MonoBehaviour {
 
 			// adjust where on screen they can appear
 			XOnlyOnscreen = GUILayout.Toggle (XOnlyOnscreen, "Only appear on-screen");
+
+			// adjust how many objects are moderate
+			BadMatches = 100 - ModerateMatches;
+			GUILayout.Box ("Moderate Matches - The rest, " + BadMatches + "%, will be bad matches.");
+			GUILayout.BeginHorizontal();
+			ModerateMatches = (int)(GUILayout.HorizontalSlider (ModerateMatches, 0, 100));
+			GUILayout.Box (ModerateMatches + "%");
+			GUILayout.EndHorizontal();
+
 
 
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ObjectSpawner : MonoBehaviour
 {
 	// the single object - this is the correct choice
+	public static GameObject CORRECT_ANSWER;
 
 	// System.Random to prevent duplicates from Unity.Random
 	System.Random r;
@@ -137,16 +138,20 @@ public class ObjectSpawner : MonoBehaviour
         _render.material.color = _color;
 
 		// put at a random position
-		float posX = (float)(AdjustParameters.XOnlyOnscreen ? 
-		              r.Next (0, 100) / 100f :
-		              r.Next (-50, 150) / 100f);
-		result.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (posX,
-		                                                                           r.Next(0, 100) / 100f,
-		                                                                           5f));
-		// add a collider for mouseover
-		result.AddComponent<BoxCollider>();
-		// and a script to manage mouse click's behavior
+		do
+		{
+			float posX = (float)(AdjustParameters.XOnlyOnscreen ? 
+			              r.Next (0, 100) / 100f :
+			              r.Next (-50, 150) / 100f);
+			result.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (posX,
+			                                                                           r.Next(0, 100) / 100f,
+			                                                                           5f)); 
+		} while (Physics.OverlapSphere(result.transform.position, result.renderer.bounds.extents.magnitude).Length != 0);
+		// add a script to manage mouse click's behavior
 		result.AddComponent<IAmAnObject>();
+
+		// save as the correct answer if applicable
+		if (t == ObjectType.Perfect) { CORRECT_ANSWER = result; }
         
         return result;
     }

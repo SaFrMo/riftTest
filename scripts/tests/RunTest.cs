@@ -26,20 +26,27 @@ public class RunTest : MonoBehaviour {
 		// flag that we're testing
 		testing = true;
 		
-		// generate blocks
+		// BLOCK GENERATION 
+		// ======================
 		ObjectSpawner o = GetComponent<ObjectSpawner>();
 		// generate correct answer
 		o.PrepareTest();
-		for (int i = 0; i < AdjustParameters.ObjectsToAppear; i++)
-		{
-			allObjects.Add (o.GenerateObject());
-		}
+		// calculate how many moderate matches to generate - subtract one to account for the perfect match
+		int theRest = AdjustParameters.ObjectsToAppear - 1;
+		int moderateMatches = Mathf.RoundToInt (theRest * (AdjustParameters.ModerateMatches / 100f));
+		int badMatches = theRest - moderateMatches;
+		// generate perfect match
+		allObjects.Add (o.GenerateObject (ObjectSpawner.ObjectType.Perfect));
+		// generate moderate matches
+		for (int i = 0; i < moderateMatches; i++) { allObjects.Add (o.GenerateObject(ObjectSpawner.ObjectType.Moderate)); }
+		// generate bad matches
+		for (int i = 0; i < badMatches; i++) { allObjects.Add (o.GenerateObject(ObjectSpawner.ObjectType.Bad)); }
 		
-		
+
+		// INFORMATION DISPLAY
+		// ======================
 		switch (_position)
 		{
-			
-			
 		case Position.BlockOne:
 			// nothing special necessary here
 			break;
