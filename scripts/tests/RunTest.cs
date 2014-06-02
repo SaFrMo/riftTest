@@ -28,6 +28,8 @@ public class RunTest : MonoBehaviour {
 		
 		// generate blocks
 		ObjectSpawner o = GetComponent<ObjectSpawner>();
+		// generate correct answer
+		o.PrepareTest();
 		for (int i = 0; i < AdjustParameters.ObjectsToAppear; i++)
 		{
 			allObjects.Add (o.GenerateObject());
