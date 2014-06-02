@@ -7,6 +7,7 @@ public class RunTest : MonoBehaviour {
 	private Timer t = null;
 	public string instructions = "In this block, your display will...";
 	public List<GameObject> allObjects = new List<GameObject>();
+	private bool testing = false;
 
 	// The main trial function.
 	private void StartTrial ()
@@ -21,6 +22,9 @@ public class RunTest : MonoBehaviour {
 			}
 			allObjects.Clear();
 		}
+
+		// flag that we're testing
+		testing = true;
 		
 		// generate blocks
 		ObjectSpawner o = GetComponent<ObjectSpawner>();

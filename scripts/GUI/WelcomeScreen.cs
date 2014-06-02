@@ -17,6 +17,7 @@ public class WelcomeScreen : MonoBehaviour {
 		// if they're good, create the relevant User Data and a reference to it
 		UserData ud = new UserData(_userNumber, _userAge, _userGender);
 		UserDataMaster.USER_DICT.Add (ud.UserNumber, ud);	
+		UserDataMaster.SaveData();
 		Application.LoadLevel("test1");
 		return true;
 	}

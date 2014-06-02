@@ -16,7 +16,7 @@ public class UserDataMaster : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 	}
 
-	// export data to .xls file
+	// export data to data table
 	public static DataTable ExportData ()
 	{
 		DataTable table = new DataTable();
@@ -30,6 +30,8 @@ public class UserDataMaster : MonoBehaviour {
 		foreach (KeyValuePair<int, UserData> kv in USER_DICT)
 		{
 			UserData d = kv.Value;
+			// TEST
+			CURRENT_USER = d;
 			// add basic data
 			table.Rows.Add (d.UserNumber, d.Age, d.Gender);
 
@@ -38,16 +40,17 @@ public class UserDataMaster : MonoBehaviour {
 		return table;
 	}
 
+	// save data as Excel-compatible file
 	public static void SaveData ()
 	{
 		DataTable t = ExportData ();
 
-		using (StreamWriter writer = new StreamWriter("C:\\dump.csv")) {
+		string filename = "User" + CURRENT_USER.UserNumber.ToString() + ".csv";
+
+		using (StreamWriter writer = new StreamWriter("C:\\" + filename)) {
 			Rfc4180Writer.WriteDataTable(t, writer, true); }
 
  	}
-
-	// C# Code
 
 }
 

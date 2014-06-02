@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ObjectSpawner : MonoBehaviour
 {
+	// the single object - this is the correct choice
+
 	// System.Random to prevent duplicates from Unity.Random
 	System.Random r;
 
@@ -27,7 +29,7 @@ public class ObjectSpawner : MonoBehaviour
         // generate the object's pattern
         Texture2D _texture = availablePatterns[r.Next(0, 2)];
         // and lastly, generate the object's shape
-        PrimitiveType _shape = availableShapes[r.Next(0, 2)];
+        PrimitiveType _shape = availableShapes[r.Next(0, 3)];
         
         // apply shape, texture, and color
         GameObject result = GameObject.CreatePrimitive (_shape);
@@ -44,6 +46,8 @@ public class ObjectSpawner : MonoBehaviour
 		                                                                           5f));
 		// add a collider for mouseover
 		result.AddComponent<BoxCollider>();
+		// and a script to manage mouse click's behavior
+		result.AddComponent<IAmAnObject>();
         
         return result;
     }
