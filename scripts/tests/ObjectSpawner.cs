@@ -42,6 +42,8 @@ public class ObjectSpawner : MonoBehaviour
 		result.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (posX,
 		                                                                           r.Next(0, 100) / 100f,
 		                                                                           5f));
+		// add a collider for mouseover
+		result.AddComponent<BoxCollider>();
         
         return result;
     }

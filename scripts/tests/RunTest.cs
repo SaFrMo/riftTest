@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class RunTest : MonoBehaviour {
 
-	public string instructions = "Instructions go here.";
+	private Timer t = null;
+	public string instructions = "In this block, your display will...";
 	public List<GameObject> allObjects = new List<GameObject>();
 
 	// The main trial function.
@@ -95,8 +96,14 @@ public class RunTest : MonoBehaviour {
 			                               height - height / 2,
 			                               width,
 			                               height));
-			GUILayout.Box (instructions);
-			if (GUILayout.Button ("Begin"))
+			GUILayout.Box (instructions + "\nTrial will begin in 3 seconds.");
+
+			// Countdown timer
+			if (t == null)
+			{
+				t = new Timer (3f);
+			}
+			if (t.RunTimer())
 			{
 				if (allTests.Count > 0)
 				{
