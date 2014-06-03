@@ -180,9 +180,13 @@ public class ObjectSpawner : MonoBehaviour
 	{
 		// color to human-readable form
 		string _col;
-		if (_correctColor == Color.red) { _col = "Red"; }
-		else if (_correctColor == Color.green) { _col = "Green"; }
-		else if (_correctColor == Color.blue) { _col = "Blue"; }
+		Color compareCol = new Color (_correctColor.r,
+		                              _correctColor.g,
+		                              _correctColor.b,
+		                              1);
+		if (compareCol == Color.red) { _col = "Red"; }
+		else if (compareCol == Color.green) { _col = "Green"; }
+		else if (compareCol == Color.blue) { _col = "Blue"; }
 		else { _col = "!Color error!"; }
 
 		string _tex = _correctTexture.name;
