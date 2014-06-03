@@ -8,6 +8,7 @@ public class RunTest : MonoBehaviour {
 	public string instructions = "In this block, your display will...";
 	public List<GameObject> allObjects = new List<GameObject>();
 	private bool testing = false;
+	private Test currentTest;
 
 	// The main trial function.
 	private void StartTrial ()
@@ -36,21 +37,32 @@ public class RunTest : MonoBehaviour {
 		int moderateMatches = Mathf.RoundToInt (theRest * (AdjustParameters.ModerateMatches / 100f));
 		int badMatches = theRest - moderateMatches;
 		// generate perfect match
-		allObjects.Add (o.GenerateObject (ObjectSpawner.ObjectType.Perfect));
+		GameObject perfect = o.GenerateObject (ObjectSpawner.ObjectType.Perfect);
+		allObjects.Add (perfect);
 		// generate moderate matches
 		for (int i = 0; i < moderateMatches; i++) { allObjects.Add (o.GenerateObject(ObjectSpawner.ObjectType.Moderate)); }
 		// generate bad matches
 		for (int i = 0; i < badMatches; i++) { allObjects.Add (o.GenerateObject(ObjectSpawner.ObjectType.Bad)); }
-		
 
 		// INFORMATION DISPLAY
 		// ======================
+		string glassDisplayType = string.Empty;
+		string glassDisplayDuration = string.Empty;
 		switch (_position)
 		{
 		case Position.BlockOne:
 			// nothing special necessary here
 			break;
 		};
+
+		// save this data to a new Test
+		currentTest = new Test (_position,
+		                        perfect,
+		                        glassDisplayType,
+		                        glassDisplayDuration);
+
+		// TODO: include this code somewhere to save test results
+		UserDataMaster.CURRENT_USER.tests.Add (currentTest);
 	}
 
 	private List<Position> allTests = new List<Position>()

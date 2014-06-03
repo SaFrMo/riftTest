@@ -26,15 +26,37 @@ public class UserDataMaster : MonoBehaviour {
 		table.Columns.Add ("Age", typeof(int));
 		table.Columns.Add ("Gender", typeof(string));
 
+		// test data
+		table.Columns.Add ("Block", typeof(string));
+		table.Columns.Add ("Target Dimensions", typeof(string));
+		table.Columns.Add ("Object Clicked", typeof(string)); // correct or incorrect object
+		table.Columns.Add ("Glass Display Type", typeof(string));
+		table.Columns.Add ("Glass Display Duration", typeof(string));
+		table.Columns.Add ("Reaction time", typeof(float));
+
 		// go through all saved user values and export them as an Excel table
 		foreach (KeyValuePair<int, UserData> kv in USER_DICT)
 		{
 			UserData d = kv.Value;
-			// TEST
 			CURRENT_USER = d;
 			// add basic data
 			table.Rows.Add (d.UserNumber, d.Age, d.Gender);
-
+			// save test data
+			if (d.tests.Count > 0)
+			{
+				foreach (Test t in d.tests)
+				{
+					table.Rows.Add (null,
+					                null,
+					                null,
+					                t.Block.ToString(),
+					                t.GetGameObjectDimensions(),
+					                t.ClickedCorrect.ToString(),
+					                t.GlassDisplayType,
+					                t.GlassDisplayDuration,
+					                t.ReactionTime);
+				}
+			}
 		}
 
 		return table;
