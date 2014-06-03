@@ -7,12 +7,18 @@ public class RunTest : MonoBehaviour {
 	private Timer t = null;
 	public string instructions = "In this block, your display will...";
 	public string debriefing = "Thank you for your participation!";
+
+	// allows GOs to be created/destroyed
 	public List<GameObject> allObjects = new List<GameObject>();
 	private bool testing = false;
 	public Test CurrentTest = null;
 	private float startTime = 0;
 	private float currentTrial = 0;
-	public float maxTrials = 7;
+	public static float maxTrials = 7;
+	// for mixed-result displays
+	public static float mixedPerfect = 0;
+	public static float mixedBad = 0;
+	// Glass interface
 	public static Rect GLASS_DISPLAY_AREA;
 	public Camera glassCamera;
 
@@ -73,12 +79,11 @@ public class RunTest : MonoBehaviour {
 
 		// INFORMATION DISPLAY
 		// ======================
-		GlassDisplay informationLength = null;
-		GlassType informationType = null;
-		ObjectSpawner.ObjectType objectType = null;
+		GlassDisplay informationLength = GlassDisplay.None;
+		GlassType informationType = GlassType.None;
+		ObjectSpawner.ObjectType objectType = ObjectSpawner.ObjectType.Bad;
 		// will the information be facilitating, distracting, or n/a?
-		switch (_position)
-		{
+		switch (_position) {
 
 		case Position.BlockOne:
 			// control - nothing here
@@ -91,6 +96,37 @@ public class RunTest : MonoBehaviour {
 			informationType = GlassType.Facilitating;
 			informationLength = GlassDisplay.Constant;
 			break;
+
+		case Position.BlockThree:
+			// distracting, constant
+			informationType = GlassType.Distracting;
+			informationLength = GlassDisplay.Constant;
+			break;
+
+		case Position.BlockFour:
+			// mixed, constant
+			informationType = GlassType.Mixed;
+			informationLength = GlassDisplay.Constant;
+			break;
+
+		case Position.BlockFive:
+			// faci, pretrial
+			informationType = GlassType.Facilitating;
+			informationLength = GlassDisplay.PreTrial;
+			break;
+
+		case Position.BlockSix:
+			// dist, pretrial
+			informationType = GlassType.Distracting;
+			informationLength = GlassDisplay.PreTrial;
+			break;
+
+		case Position.BlockSeven:
+			// mixed, pretrial
+			informationType = GlassType.Mixed;
+			informationLength = GlassDisplay.PreTrial;
+			break;
+
 		};
 
 		// what kind of object will we generate?
@@ -154,6 +190,7 @@ public class RunTest : MonoBehaviour {
 	{
 		Facilitating,
 		Distracting,
+		Mixed,
 		None
 	}
 
