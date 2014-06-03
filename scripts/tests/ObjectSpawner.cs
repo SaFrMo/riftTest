@@ -74,7 +74,7 @@ public class ObjectSpawner : MonoBehaviour
 	}
     
     
-    public GameObject GenerateObject (ObjectType t = ObjectType.Moderate)
+	public GameObject GenerateObject (ObjectType t = ObjectType.Moderate, bool keepCollider = true)
     {
         // first, generate the object's color
 		Color _color = Color.white;
@@ -158,6 +158,11 @@ public class ObjectSpawner : MonoBehaviour
 		         RunTest.GLASS_DISPLAY_AREA.Contains (Camera.main.WorldToScreenPoint(result.transform.position)));
 		// add a script to manage mouse click's behavior
 		result.AddComponent<IAmAnObject>();
+		// remove the collider if relevant
+		if (!keepCollider) 
+		{ 
+			Destroy (result.collider); 
+		}
 
 
 

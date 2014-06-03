@@ -14,6 +14,7 @@ public class RunTest : MonoBehaviour {
 	private float currentTrial = 0;
 	public float maxTrials = 7;
 	public static Rect GLASS_DISPLAY_AREA;
+	public Camera glassCamera;
 
 	public void NextTrial (bool correctObject) 
 	{
@@ -72,20 +73,54 @@ public class RunTest : MonoBehaviour {
 
 		// INFORMATION DISPLAY
 		// ======================
-		string glassDisplayType = string.Empty;
-		string glassDisplayDuration = string.Empty;
+		GlassDisplay informationLength = null;
+		GlassType informationType = null;
+		ObjectSpawner.ObjectType objectType = null;
+		// will the information be facilitating, distracting, or n/a?
 		switch (_position)
 		{
+
 		case Position.BlockOne:
-			// nothing special necessary here
+			// control - nothing here
+			informationType = GlassType.None;
+			informationLength = GlassDisplay.None;
+			break;
+
+		case Position.BlockTwo:
+			// facilitating, constant
+			informationType = GlassType.Facilitating;
+			informationLength = GlassDisplay.Constant;
 			break;
 		};
+
+		// what kind of object will we generate?
+		switch (informationType)
+		{
+		case GlassType.Facilitating:
+			objectType = ObjectSpawner.ObjectType.Perfect;
+			break;
+		case GlassType.Distracting:
+			objectType = ObjectSpawner.ObjectType.Bad;
+			break;
+		};
+		// don't generate a reference object if none is desired
+		if (informationType != GlassType.None)
+		{
+			// generate glass display object according to parameters above w/o a collider
+			GameObject glassDisplay = o.GenerateObject(objectType, false);
+			// place in glass "window"
+			glassDisplay.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (.85f, .85f, 3f));
+			// rotate to make clear
+			glassDisplay.AddComponent<RotateMe>();
+			// save reference to ease destruction
+			allObjects.Add (glassDisplay);
+		}
 
 		// save this data to a new Test
 		CurrentTest = new Test (_position,
 		                        o.GetCorrectAnswer(),
-		                        glassDisplayType,
-		                        glassDisplayDuration);
+		                        informationType.ToString(),
+		                        informationLength.ToString());
 
 		// TODO: include this code somewhere to save test results
 		UserDataMaster.CURRENT_USER.tests.Add (CurrentTest);
@@ -113,6 +148,20 @@ public class RunTest : MonoBehaviour {
 		BlockSix,
 		BlockSeven,
 		Debriefing
+	}
+
+	public enum GlassType
+	{
+		Facilitating,
+		Distracting,
+		None
+	}
+
+	public enum GlassDisplay
+	{
+		Constant,
+		PreTrial,
+		None
 	}
 
 	// determines what's happening now
