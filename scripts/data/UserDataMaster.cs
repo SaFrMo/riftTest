@@ -50,7 +50,7 @@ public class UserDataMaster : MonoBehaviour {
 					                null,
 					                null,
 					                t.Block.ToString(),
-					                t.GetGameObjectDimensions(),
+					                t.Dimensions,
 					                t.ClickedCorrect.ToString(),
 					                t.GlassDisplayType,
 					                t.GlassDisplayDuration,
@@ -73,6 +73,16 @@ public class UserDataMaster : MonoBehaviour {
 			Rfc4180Writer.WriteDataTable(t, writer, true); }
 
  	}
+
+
+	// TEST EXPORT
+	private void Update ()
+	{
+		if (Input.GetKeyDown (KeyCode.E))
+		{
+			SaveData();
+		}
+	}
 
 }
 

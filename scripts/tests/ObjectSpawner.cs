@@ -175,6 +175,21 @@ public class ObjectSpawner : MonoBehaviour
 		r = new System.Random();
 	}
 
+	// return the correct value's parameters as a string for data recording
+	public string GetCorrectAnswer()
+	{
+		// color to human-readable form
+		string _col;
+		if (_correctColor == Color.red) { _col = "Red"; }
+		else if (_correctColor == Color.green) { _col = "Green"; }
+		else if (_correctColor == Color.blue) { _col = "Blue"; }
+		else { _col = "!Color error!"; }
+
+		string _tex = _correctTexture.name;
+		string _shape = _correctShape.ToString();
+		return string.Format ("{0} {1} {2}", _col, _tex, _shape);
+	}
+
 
 	public void PrepareTest()
 	{

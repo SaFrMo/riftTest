@@ -40,25 +40,35 @@ public class UserData {
 public class Test
 {
 	public RunTest.Position Block { get; private set; }
-	private GameObject correctGO;
+	public string Dimensions { get; private set; }
 	public bool ClickedCorrect { get; private set; }
 	public string GlassDisplayType { get; private set; }
 	public string GlassDisplayDuration { get; private set; }
-	public float ReactionTime { get; private set; }
+	private float startTime;
+	private float endTime;
+	public float ReactionTime { get { return endTime - startTime; } }
 
 	// constructor
 	public Test (RunTest.Position block,
-	             GameObject go,
+	             string dimensions,
 	             string glassDisplayType,
 	             string glassDisplayDuration)
 	{
 		Block = block;
-		correctGO = go;
+		Dimensions = dimensions;
 		GlassDisplayType = glassDisplayType;
 		GlassDisplayDuration = glassDisplayDuration;
+		startTime = Time.time;
 	}
 
-	// helpers to export data to spreadsheet
-	// TODO
-	public string GetGameObjectDimensions() { return string.Empty; }
+	// user clicked the correct object
+	public void Correct()
+	{
+		ClickedCorrect = true;
+	}
+
+	public void Complete()
+	{
+		endTime = Time.time;
+	}
 }

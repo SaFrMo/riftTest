@@ -5,10 +5,11 @@ public class IAmAnObject : MonoBehaviour {
 
 	private void OnMouseDown ()
 	{
-		print ("CLICKED!");
+		bool correctObject = false;
 		if (ObjectSpawner.CORRECT_ANSWER == gameObject)
 		{
-			print ("CORRECT!");
+			correctObject = true;
 		}
+		GameObject.Find ("Test Manager").GetComponent<RunTest>().NextTrial(correctObject);
 	}
 }

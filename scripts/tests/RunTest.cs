@@ -8,11 +8,22 @@ public class RunTest : MonoBehaviour {
 	public string instructions = "In this block, your display will...";
 	public List<GameObject> allObjects = new List<GameObject>();
 	private bool testing = false;
-	private Test currentTest;
+	public Test CurrentTest = null;
+	private float startTime = 0;
+
+	public void NextTrial (bool correctObject) 
+	{
+		if (correctObject) { CurrentTest.Correct(); }
+		CurrentTest.Complete();
+		StartTrial();
+	}
 
 	// The main trial function.
 	private void StartTrial ()
 	{
+		// finish old test
+		if (CurrentTest != null) { CurrentTest.Complete(); }
+
 		// clear old objects if applicable
 		if (allObjects.Count > 0)
 		{
@@ -56,13 +67,13 @@ public class RunTest : MonoBehaviour {
 		};
 
 		// save this data to a new Test
-		currentTest = new Test (_position,
-		                        perfect,
+		CurrentTest = new Test (_position,
+		                        o.GetCorrectAnswer(),
 		                        glassDisplayType,
 		                        glassDisplayDuration);
 
 		// TODO: include this code somewhere to save test results
-		UserDataMaster.CURRENT_USER.tests.Add (currentTest);
+		UserDataMaster.CURRENT_USER.tests.Add (CurrentTest);
 	}
 
 	private List<Position> allTests = new List<Position>()
