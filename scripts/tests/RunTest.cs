@@ -12,7 +12,7 @@ public class RunTest : MonoBehaviour {
 	public Test CurrentTest = null;
 	private float startTime = 0;
 	private float currentTrial = 0;
-	private float maxTrials = 7;
+	public float maxTrials = 7;
 
 	public void NextTrial (bool correctObject) 
 	{

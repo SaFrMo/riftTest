@@ -41,9 +41,9 @@ public class ObjectSpawner : MonoBehaviour
 	private void GenerateAnswer ()
 	{
 		// generate the one correct value
-		_correctColor = availableColors[r.Next(0, 2)];
-		_correctTexture = availablePatterns[r.Next(0, 2)];
-		_correctShape = availableShapes[r.Next(0, 2)];
+		_correctColor = availableColors[r.Next(0, availableColors.Count)];
+		_correctTexture = availablePatterns[r.Next(0, availablePatterns.Count)];
+		_correctShape = availableShapes[r.Next(0, availableShapes.Count)];
 		print (_correctColor);
 		print (_correctShape);
 		print (_correctTexture);
@@ -52,7 +52,7 @@ public class ObjectSpawner : MonoBehaviour
 	private Color GenerateBadColor ()
 	{
 		Color _color;
-		do { _color = availableColors[r.Next(0, 2)]; } 
+		do { _color = availableColors[r.Next(0, availableColors.Count)]; } 
 		while (_color == _correctColor);
 		return _color;
 	}
@@ -60,7 +60,7 @@ public class ObjectSpawner : MonoBehaviour
 	private Texture2D GenerateBadTexture ()
 	{
 		Texture2D t;
-		do { t = availablePatterns[r.Next(0, 2)]; } 
+		do { t = availablePatterns[r.Next(0, availablePatterns.Count)]; } 
 		while (t == _correctTexture);
 		return t;
 	}
@@ -68,7 +68,7 @@ public class ObjectSpawner : MonoBehaviour
 	private PrimitiveType GenerateBadShape ()
 	{
 		PrimitiveType p;
-		do { p = availableShapes[r.Next(0, 3)]; } 
+		do { p = availableShapes[r.Next(0, availableShapes.Count)]; } 
 		while (p == _correctShape);
 		return p;
 	}
@@ -185,7 +185,7 @@ public class ObjectSpawner : MonoBehaviour
 		                              _correctColor.b,
 		                              1);
 		if (compareCol == Color.red) { _col = "Red"; }
-		else if (compareCol == Color.green) { _col = "Green"; }
+		else if (compareCol == new Color (1f, 1f, 0f, 1f)) { _col = "Yellow"; }
 		else if (compareCol == Color.blue) { _col = "Blue"; }
 		else { _col = "!Color error!"; }
 
