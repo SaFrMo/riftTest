@@ -141,6 +141,9 @@ public class ObjectSpawner : MonoBehaviour
 		                                    _render.material.color.g,
 		                                    _render.material.color.b,
 		                                    1);
+		// aesthetic fixes
+		if (_render.material.mainTexture.name.Contains ("polka") && _shape != PrimitiveType.Cube) { _render.material.mainTextureScale = new Vector2 (2f, 1f); }
+		if (_render.material.mainTexture.name.Contains ("cross") && _shape == PrimitiveType.Cube) { _render.material.mainTextureScale = new Vector2 (.5f, 1f); }
 
 		// put at a random position
 		do
@@ -151,7 +154,8 @@ public class ObjectSpawner : MonoBehaviour
 			result.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (posX,
 			                                                                           r.Next(5, 95) / 100f,
 			                                                                           5f)); 
-		} while (Physics.OverlapSphere(result.transform.position, 1f).Length != 0);
+		} while (Physics.OverlapSphere(result.transform.position, 1f).Length != 0 ||
+		         RunTest.GLASS_DISPLAY_AREA.Contains (Camera.main.WorldToScreenPoint(result.transform.position)));
 		// add a script to manage mouse click's behavior
 		result.AddComponent<IAmAnObject>();
 

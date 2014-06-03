@@ -13,6 +13,7 @@ public class RunTest : MonoBehaviour {
 	private float startTime = 0;
 	private float currentTrial = 0;
 	public float maxTrials = 7;
+	public static Rect GLASS_DISPLAY_AREA;
 
 	public void NextTrial (bool correctObject) 
 	{
@@ -127,10 +128,11 @@ public class RunTest : MonoBehaviour {
 			float width = Screen.width / 4f;
 			float height = width / 1.6f;
 			float spacer = 10f;
-			GUI.Box (new Rect (Screen.width - width - spacer,
+			GLASS_DISPLAY_AREA = new Rect (Screen.width - width - spacer,
 			                               spacer,
 			                               width,
-			                               height), glassInstructions);
+			                               height);
+			GUI.Box (GLASS_DISPLAY_AREA, glassInstructions);
 		}
 
 
