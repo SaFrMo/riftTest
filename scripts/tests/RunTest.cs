@@ -10,12 +10,22 @@ public class RunTest : MonoBehaviour {
 	private bool testing = false;
 	public Test CurrentTest = null;
 	private float startTime = 0;
+	private float currentTrial = 0;
+	private float maxTrials = 7;
 
 	public void NextTrial (bool correctObject) 
 	{
 		if (correctObject) { CurrentTest.Correct(); }
 		CurrentTest.Complete();
-		StartTrial();
+		// start a new trial
+		if (currentTrial < maxTrials)
+			StartTrial();
+		// reset and start a new block
+		else
+		{
+			currentTrial = 0;
+			_position = Position.Instructions;
+		}
 	}
 
 	// The main trial function.
@@ -23,6 +33,9 @@ public class RunTest : MonoBehaviour {
 	{
 		// finish old test
 		if (CurrentTest != null) { CurrentTest.Complete(); }
+
+		// count next one
+		currentTrial++;
 
 		// clear old objects if applicable
 		if (allObjects.Count > 0)
@@ -126,6 +139,19 @@ public class RunTest : MonoBehaviour {
 
 			// display instructions
 		case Position.Instructions:
+			// clear all objects
+			if (allObjects.Count > 0)
+			{
+				GameObject[] allArray = allObjects.ToArray();
+				foreach (GameObject go in allArray)
+				{
+					Destroy (go);
+				}
+				allObjects.Clear();
+				// reset timer
+				t = null;
+			}
+
 			float width = Screen.width / 2;
 			float height = Screen.height / 2;
 			GUILayout.BeginArea (new Rect (width - width / 2,
