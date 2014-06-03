@@ -6,6 +6,7 @@ public class RunTest : MonoBehaviour {
 
 	private Timer t = null;
 	public string instructions = "In this block, your display will...";
+	public string debriefing = "Thank you for your participation!";
 	public List<GameObject> allObjects = new List<GameObject>();
 	private bool testing = false;
 	public Test CurrentTest = null;
@@ -109,7 +110,8 @@ public class RunTest : MonoBehaviour {
 		BlockFour,
 		BlockFive,
 		BlockSix,
-		BlockSeven
+		BlockSeven,
+		Debriefing
 	}
 
 	// determines what's happening now
@@ -139,47 +141,65 @@ public class RunTest : MonoBehaviour {
 
 			// display instructions
 		case Position.Instructions:
-			// clear all objects
-			if (allObjects.Count > 0)
+			if (allTests.Count > 0)
 			{
-				GameObject[] allArray = allObjects.ToArray();
-				foreach (GameObject go in allArray)
+				// clear all objects
+				if (allObjects.Count > 0)
 				{
-					Destroy (go);
+					GameObject[] allArray = allObjects.ToArray();
+					foreach (GameObject go in allArray)
+					{
+						Destroy (go);
+					}
+					allObjects.Clear();
+					t = null;
 				}
-				allObjects.Clear();
-				// reset timer
-				t = null;
-			}
+				// instructions window
+				float width = Screen.width / 2;
+				float height = Screen.height / 2;
+				GUILayout.BeginArea (new Rect (width - width / 2,
+				                               height - height / 2,
+				                               width,
+				                               height));
+				GUILayout.Box (instructions + "\nTrial will begin in 3 seconds.");
 
-			float width = Screen.width / 2;
-			float height = Screen.height / 2;
-			GUILayout.BeginArea (new Rect (width - width / 2,
-			                               height - height / 2,
-			                               width,
-			                               height));
-			GUILayout.Box (instructions + "\nTrial will begin in 3 seconds.");
+				// Countdown timer
+				if (t == null)
+				{
+					t = new Timer (3f);
+				}
+				if (t.RunTimer())
+				{
+					if (allTests.Count > 0)
+					{
+						// loads the next test and deletes the reference to that block to avoid repeats
+						int which = UnityEngine.Random.Range (0, allTests.Count);
+						_position = allTests[which];
+						allTests.RemoveAt (which);
+						StartTrial();
+					}
 
-			// Countdown timer
-			if (t == null)
-			{
-				t = new Timer (3f);
-			}
-			if (t.RunTimer())
-			{
-				if (allTests.Count > 0)
-				{
-					// loads the next test and deletes the reference to that block to avoid repeats
-					int which = UnityEngine.Random.Range (0, allTests.Count);
-					_position = allTests[which];
-					allTests.RemoveAt (which);
-					StartTrial();
 				}
-				else
-				{
-					print ("DONE");
-				}
+				GUILayout.EndArea();
+
 			}
+			else
+			{
+				UserDataMaster.SaveData();
+				_position = Position.Debriefing;
+			}
+			break;
+
+			// debriefing window
+		case Position.Debriefing:
+			float w = Screen.width / 2;
+			float h = Screen.height / 2;
+			GUILayout.BeginArea (new Rect (w - w / 2,
+			                               h - h / 2,
+			                               w,
+			                               h));
+			GUILayout.Box (debriefing);
+			if (GUILayout.Button ("Done")) { Application.LoadLevel ("welcome"); }
 			GUILayout.EndArea();
 			break;
 		};

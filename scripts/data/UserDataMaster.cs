@@ -72,16 +72,6 @@ public class UserDataMaster : MonoBehaviour {
 		using (StreamWriter writer = new StreamWriter("C:\\" + filename)) {
 			Rfc4180Writer.WriteDataTable(t, writer, true); }
 
- 	}
-
-
-	// TEST EXPORT
-	private void Update ()
-	{
-		if (Input.GetKeyDown (KeyCode.E))
-		{
-			SaveData();
-		}
 	}
 
 }
