@@ -22,6 +22,8 @@ public class ObjectSpawner : MonoBehaviour
         PrimitiveType.Capsule
     };
 
+	public Texture2D blank;
+
 	
 	// ANSWER GENERATION
 	// ======================
@@ -134,16 +136,17 @@ public class ObjectSpawner : MonoBehaviour
         // apply shape, texture, and color
         GameObject result = GameObject.CreatePrimitive (_shape);
 		Renderer _render = result.GetComponent<Renderer>();
-		_render.material.mainTexture = _texture;
+		_render.material.shader = Shader.Find ("Decal");
+		_render.material.SetTexture ("_MainTex", blank);
+		_render.material.SetTexture ("_DecalTex", _texture);
         _render.material.color = _color;
-		_render.material.shader = Shader.Find ("Transparent/Diffuse");
 		_render.material.color = new Color (_render.material.color.r,
 		                                    _render.material.color.g,
 		                                    _render.material.color.b,
 		                                    1);
 		// aesthetic fixes
-		if (_render.material.mainTexture.name.Contains ("polka") && _shape != PrimitiveType.Cube) { _render.material.mainTextureScale = new Vector2 (2f, 1f); }
-		if (_render.material.mainTexture.name.Contains ("cross") && _shape == PrimitiveType.Cube) { _render.material.mainTextureScale = new Vector2 (.5f, 1f); }
+		if (_render.material.mainTexture.name.Contains ("polka") && _shape != PrimitiveType.Cube) { _render.material.SetTextureScale ("_DecalTex", new Vector2 (2f, 1f)); }
+		if (_render.material.mainTexture.name.Contains ("cross") && _shape == PrimitiveType.Cube) { _render.material.SetTextureScale ("_DecalTex", new Vector2 (.5f, 1f)); }
 
 		// put at a random position
 		do
