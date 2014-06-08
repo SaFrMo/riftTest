@@ -16,6 +16,11 @@ public class UserDataMaster : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 	}
 
+	private void Update ()
+	{
+		if (Input.GetKeyDown(KeyCode.E)) { SaveData(); }
+	}
+
 	// export data to data table
 	public static DataTable ExportData ()
 	{

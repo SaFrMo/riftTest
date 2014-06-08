@@ -24,6 +24,8 @@ public class ObjectSpawner : MonoBehaviour
 
 	public Texture2D blank;
 
+	// user-adjustable
+
 	
 	// ANSWER GENERATION
 	// ======================
@@ -135,6 +137,14 @@ public class ObjectSpawner : MonoBehaviour
       
         // apply shape, texture, and color
         GameObject result = GameObject.CreatePrimitive (_shape);
+		// scale down object
+		result.transform.localScale = Vector3.one * 0.6f;
+		/*
+		if (_shape == PrimitiveType.Capsule) 
+		{ result.transform.localScale = new Vector3 (result.transform.localScale.x * .5f,
+                                                      result.transform.localScale.y, 
+                                                      result.transform.localScale.z); }
+                                                      */
 		Renderer _render = result.GetComponent<Renderer>();
 		_render.material.shader = Shader.Find ("Decal");
 		_render.material.SetTexture ("_MainTex", blank);
@@ -145,8 +155,8 @@ public class ObjectSpawner : MonoBehaviour
 		                                    _render.material.color.b,
 		                                    1);
 		// aesthetic fixes
-		if (_render.material.mainTexture.name.Contains ("polka") && _shape != PrimitiveType.Cube) { _render.material.SetTextureScale ("_DecalTex", new Vector2 (2f, 1f)); }
-		if (_render.material.mainTexture.name.Contains ("cross") && _shape == PrimitiveType.Cube) { _render.material.SetTextureScale ("_DecalTex", new Vector2 (.5f, 1f)); }
+		if (_render.material.GetTexture("_DecalTex").name.Contains ("polka") && _shape != PrimitiveType.Cube) { _render.material.SetTextureScale ("_DecalTex", new Vector2 (2f, 1f)); }
+		if (_render.material.GetTexture("_DecalTex").name.Contains ("cross") && _shape == PrimitiveType.Cube) { _render.material.SetTextureScale ("_DecalTex", new Vector2 (.5f, 1f)); }
 
 		// put at a random position
 		do
@@ -157,8 +167,9 @@ public class ObjectSpawner : MonoBehaviour
 			result.transform.position = Camera.main.ViewportToWorldPoint (new Vector3 (posX,
 			                                                                           r.Next(5, 95) / 100f,
 			                                                                           5f)); 
-		} while (Physics.OverlapSphere(result.transform.position, 1f).Length != 0 ||
-		         RunTest.GLASS_DISPLAY_AREA.Contains (Camera.main.WorldToScreenPoint(result.transform.position)));
+
+		} while (Physics.OverlapSphere(result.transform.position, 2f).Length != 0 ||
+		         RunTest.GLASS_DISPLAY_AREA.Contains (Camera.main.WorldToScreenPoint(result.transform.position), true));
 		// add a script to manage mouse click's behavior
 		result.AddComponent<IAmAnObject>();
 		// remove the collider if relevant
@@ -172,12 +183,7 @@ public class ObjectSpawner : MonoBehaviour
 		// save as the correct answer if applicable
 		if (t == ObjectType.Perfect) { CORRECT_ANSWER = result; }
 
-		// scale down object
-		result.transform.localScale = Vector3.one * 0.4f;
-		if (_shape == PrimitiveType.Capsule) 
-		{ result.transform.localScale = new Vector3 (result.transform.localScale.x,
-                                                      result.transform.localScale.y * .5f, 
-                                                      result.transform.localScale.z); }
+
         
         return result;
     }

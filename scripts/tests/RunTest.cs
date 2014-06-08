@@ -22,6 +22,8 @@ public class RunTest : MonoBehaviour {
 	public static Rect GLASS_DISPLAY_AREA;
 	public Camera glassCamera;
 
+	private ObjectSpawner o;
+
 	public void NextTrial (bool correctObject) 
 	{
 		if (correctObject) { CurrentTest.Correct(); }
@@ -62,7 +64,7 @@ public class RunTest : MonoBehaviour {
 		
 		// BLOCK GENERATION 
 		// ======================
-		ObjectSpawner o = GetComponent<ObjectSpawner>();
+		o = GetComponent<ObjectSpawner>();
 		// generate correct answer
 		o.PrepareTest();
 		// calculate how many moderate matches to generate - subtract one to account for the perfect match
