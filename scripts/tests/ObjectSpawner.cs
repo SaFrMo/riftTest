@@ -7,6 +7,8 @@ public class ObjectSpawner : MonoBehaviour
 	// the single object - this is the correct choice
 	public static GameObject CORRECT_ANSWER;
 
+	public Texture2D blank;
+
 	// System.Random to prevent duplicates from Unity.Random
 	System.Random r;
 
@@ -22,9 +24,12 @@ public class ObjectSpawner : MonoBehaviour
         PrimitiveType.Capsule
     };
 
-	public Texture2D blank;
 
-	// user-adjustable
+
+	// user-adjustable variables
+	public float objectSize = .4f;
+	public int objectsToAppear = 10;
+	public float timeBetweenTests = 3f;
 
 	
 	// ANSWER GENERATION
@@ -138,7 +143,7 @@ public class ObjectSpawner : MonoBehaviour
         // apply shape, texture, and color
         GameObject result = GameObject.CreatePrimitive (_shape);
 		// scale down object
-		result.transform.localScale = Vector3.one * 0.6f;
+		result.transform.localScale = Vector3.one * objectSize;
 		/*
 		if (_shape == PrimitiveType.Capsule) 
 		{ result.transform.localScale = new Vector3 (result.transform.localScale.x * .5f,
@@ -191,6 +196,9 @@ public class ObjectSpawner : MonoBehaviour
 	private void Start ()
 	{
 		r = new System.Random();
+
+		// REMOVE THIS TO SET OBJECTS TO APPEAR AT RUNTIME
+		AdjustParameters.ObjectsToAppear = objectsToAppear;
 	}
 
 	// return the correct value's parameters as a string for data recording

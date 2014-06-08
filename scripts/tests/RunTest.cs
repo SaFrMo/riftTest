@@ -23,6 +23,12 @@ public class RunTest : MonoBehaviour {
 	public Camera glassCamera;
 
 	private ObjectSpawner o;
+	private float timeBetweenTests;
+
+	private void Start ()
+	{
+		timeBetweenTests = FindObjectOfType<ObjectSpawner>().timeBetweenTests;
+	}
 
 	public void NextTrial (bool correctObject) 
 	{
@@ -251,12 +257,12 @@ public class RunTest : MonoBehaviour {
 				                               height - height / 2,
 				                               width,
 				                               height));
-				GUILayout.Box (instructions + "\nTrial will begin in 3 seconds.");
+				GUILayout.Box (instructions + "\nTrial will begin in " + timeBetweenTests.ToString() + " seconds.");
 
 				// Countdown timer
 				if (t == null)
 				{
-					t = new Timer (3f);
+					t = new Timer (timeBetweenTests);
 				}
 				if (t.RunTimer())
 				{

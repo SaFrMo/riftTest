@@ -28,12 +28,14 @@ public class AdjustParameters : MonoBehaviour {
 			                               width,
 			                               height));
 
+			/*
 			// adjust number of objects to appear
 			GUILayout.Box ("Objects To Appear");
 			GUILayout.BeginHorizontal();
 			ObjectsToAppear = (int)(GUILayout.HorizontalSlider (ObjectsToAppear, 1, 20));
 			GUILayout.Box (ObjectsToAppear.ToString());
 			GUILayout.EndHorizontal();
+			*/
 
 			// adjust where on screen they can appear
 			XOnlyOnscreen = GUILayout.Toggle (XOnlyOnscreen, "Only appear on-screen");
